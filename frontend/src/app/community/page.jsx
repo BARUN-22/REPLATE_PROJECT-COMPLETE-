@@ -212,7 +212,7 @@ export default function CommunityConnection() {
       </div>
     </header>
   );
-
+//gjnkmjkvgdch
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col items-center">
       <Header />
