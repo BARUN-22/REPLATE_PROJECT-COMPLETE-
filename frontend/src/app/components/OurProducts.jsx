@@ -15,7 +15,7 @@ const productData = [
         in need. Every meal saved is a step toward a sustainable future!
       </>
     ),
-    link: "/donate", // ✅ Make sure app/donate/page.jsx exists
+    link: "/donate", 
   },
   {
     icon: <MdRestaurantMenu size={36} className="text-green-600" />,
@@ -26,7 +26,7 @@ const productData = [
         your ingredients into creative, zero-waste recipes in seconds.
       </>
     ),
-    link: "/recipe", // ✅ Make sure app/recipe/page.jsx exists
+    link: "/recipe", 
   },
   {
     icon: <FaChartLine size={36} className="text-green-600" />,
@@ -37,7 +37,7 @@ const productData = [
         saved, meals donated, and waste reduced.
       </>
     ),
-    link: "/track-impact", // Optional page (make sure it exists)
+    link: "/track-impact", 
   },
   {
     icon: <FaNetworkWired size={36} className="text-green-600" />,
@@ -48,7 +48,7 @@ const productData = [
         Community Hub.
       </>
     ),
-    link: "/community", // Optional page (make sure it exists)
+    link: "/community", 
   },
 ];
 

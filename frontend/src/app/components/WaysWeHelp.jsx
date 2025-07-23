@@ -29,7 +29,7 @@ const WaysWeHelp = () => {
       <div
         className="absolute inset-0 z-0 opacity-20"
         style={{
-          backgroundImage: "url('/images/bgP.webp')",
+          backgroundImage: "url('/images/bgp.jpg')",
           backgroundSize: "280% auto",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",

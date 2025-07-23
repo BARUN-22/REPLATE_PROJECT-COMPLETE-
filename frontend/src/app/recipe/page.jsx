@@ -1,89 +1,165 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { ChevronDown } from "lucide-react";
-import error from "next/error";
+} from '@/components/ui/dropdown-menu';
+import { ChevronDown, Moon, Sun } from 'lucide-react';
 
 export default function RecipeGenerator() {
   const [ingredients, setIngredients] = useState([""]);
   const [generatedRecipe, setGeneratedRecipe] = useState(null);
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // ✅ Header component
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+    const darkModePref = localStorage.getItem('darkMode') === 'true';
+
+    if (token && user) {
+      setIsAuthenticated(true);
+      setUserName(user.username || 'User');
+    }
+    if (darkModePref) {
+      document.body.classList.add('dark');
+      setIsDarkMode(true);
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    localStorage.setItem('darkMode', newMode.toString());
+    document.body.classList.toggle('dark', newMode);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    router.push('/');
+  };
+
   const Header = () => (
-    <header className="bg-white shadow-md h-20 fixed top-0 w-full z-50 px-2">
+    <header className="bg-white dark:bg-gray-900 shadow-md h-20 fixed top-0 w-full z-50 px-2">
       <div className="flex justify-between items-center max-w-screen-xl mx-auto h-full">
         <div className="flex items-center gap-2 mt-1">
-          <Image
-            src="/images/logo1.png"
-            alt="Re-Plate Logo"
-            width={180}
-            height={180}
-            priority
-          />
+          <Link href="/">
+            <Image
+              src="/images/logo1.png"
+              alt="Re-Plate Logo"
+              width={180}
+              height={180}
+              priority
+            />
+          </Link>
         </div>
         <div className="flex items-center gap-10 pr-4">
-          <nav className="flex items-center gap-10 text-gray-700 font-medium">
+          <nav className="flex items-center gap-10 text-gray-700 dark:text-gray-200 font-medium">
             <Link
-              href="/AboutUs"
+              href="/about"
               className="hover:text-yellow-500 cursor-pointer transition duration-200 font-semibold"
             >
               About Us
             </Link>
+
+            {/* ======= Only this section is changed ======= */}
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 hover:text-yellow-500 transition duration-200">
                 Our Products <ChevronDown size={16} />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white rounded-md shadow-lg mt-2 p-2">
-                <DropdownMenuItem className="px-4 py-2 hover:bg-yellow-100 hover:scale-105 transition rounded text-sm font-semibold text-gray-700 cursor-pointer">
-                  Food Donation Portal
+              <DropdownMenuContent className="bg-white dark:bg-gray-800 rounded-md shadow-lg mt-2 p-2 min-w-[200px]">
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/donate"
+                    className="block px-4 py-2 hover:bg-yellow-100 dark:hover:bg-gray-700 rounded text-sm font-semibold text-gray-700 dark:text-white cursor-pointer transition-colors"
+                  >
+                    Food Donation Portal
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="px-4 py-2 hover:bg-yellow-100 hover:scale-105 transition rounded text-sm font-semibold text-gray-700 cursor-pointer">
-                  AI-Powered Recipe Generator
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/recipe"
+                    className="block px-4 py-2 hover:bg-yellow-100 dark:hover:bg-gray-700 rounded text-sm font-semibold text-gray-700 dark:text-white cursor-pointer transition-colors"
+                  >
+                    AI-Powered Recipe Generator
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="px-4 py-2 hover:bg-yellow-100 hover:scale-105 transition rounded text-sm font-semibold text-gray-700 cursor-pointer">
-                  Impact Tracker
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/track-impact"
+                    className="block px-4 py-2 hover:bg-yellow-100 dark:hover:bg-gray-700 rounded text-sm font-semibold text-gray-700 dark:text-white cursor-pointer transition-colors"
+                  >
+                    Impact Tracker
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="px-4 py-2 hover:bg-yellow-100 hover:scale-105 transition rounded text-sm font-semibold text-gray-700 cursor-pointer">
-                  NGO & Volunteer Hub
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/community"
+                    className="block px-4 py-2 hover:bg-yellow-100 dark:hover:bg-gray-700 rounded text-sm font-semibold text-gray-700 dark:text-white cursor-pointer transition-colors"
+                  >
+                    NGO & Volunteer Hub
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <span className="hover:text-yellow-500 cursor-pointer transition duration-200 font-semibold">
+            {/* ======= End of changed section ======= */}
+
+            <Link
+              href="/contact"
+              className="hover:text-yellow-500 cursor-pointer transition duration-200 font-semibold"
+            >
               Contact
-            </span>
+            </Link>
+          </nav>
+          {!isAuthenticated ? (
+            <Link href="/signup">
+              <Button className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold uppercase px-5 py-2 rounded-full text-sm shadow-md transition duration-300">
+                Login / Signup
+              </Button>
+            </Link>
+          ) : (
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 hover:text-yellow-500 transition duration-200">
-                Menu <ChevronDown size={16} />
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-gradient-to-r from-yellow-400 to-yellow-5w00 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold uppercase px-5 py-2 rounded-full text-sm shadow-md transition duration-300">
+                  Profile
+                </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white rounded-md shadow-lg mt-2 p-2">
-                <DropdownMenuItem className="px-4 py-2 hover:bg-yellow-100 hover:scale-105 transition rounded text-sm font-semibold text-gray-700 cursor-pointer">
-                  Item 1
+              <DropdownMenuContent className="bg-white dark:bg-gray-800 rounded-md shadow-lg mt-2 p-2 min-w-[160px]">
+                <DropdownMenuItem className="text-gray-600 dark:text-white font-semibold text-sm cursor-default px-4 py-2">
+                  {userName}
                 </DropdownMenuItem>
-                <DropdownMenuItem className="px-4 py-2 hover:bg-yellow-100 hover:scale-105 transition rounded text-sm font-semibold text-gray-700 cursor-pointer">
-                  Item 2
+                <DropdownMenuItem
+                  onClick={toggleDarkMode}
+                  className="px-4 py-2 hover:bg-yellow-100 dark:hover:bg-gray-700 text-gray-700 dark:text-white rounded cursor-pointer text-sm flex gap-2 items-center"
+                >
+                  {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+                  {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-gray-700 rounded cursor-pointer text-sm"
+                >
+                  Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </nav>
-          <Button
-            className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold uppercase px-5 py-2 rounded-full text-sm shadow-md transition duration-300" variant={undefined} size={undefined}          >
-            Login / Signup
-          </Button>
+          )}
         </div>
       </div>
     </header>
   );
 
-  // ✅ Handlers
   const handleIngredientChange = (index, event) => {
     const newIngredients = [...ingredients];
     newIngredients[index] = event.target.value;
@@ -91,7 +167,7 @@ export default function RecipeGenerator() {
   };
 
   const handleAddIngredient = () => {
-    setIngredients([...ingredients, ""]);
+    setIngredients([...ingredients, '']);
   };
 
   const handleRemoveIngredient = (index) => {
@@ -101,27 +177,26 @@ export default function RecipeGenerator() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("/api/generate-recipe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('http://localhost:8080/api/recipe/generate-recipe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients: ingredients.filter(Boolean) }),
       });
+
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
       setGeneratedRecipe(data.recipe);
     } catch (error) {
-      console.error("Error generating recipe:", error);
-      setGeneratedRecipe({ error: "Failed to generate recipe. Please try again." });
+      console.error('Error generating recipe:', error);
+      setGeneratedRecipe({ error: 'Failed to generate recipe. Please try again.' });
     }
   };
 
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
-
       <main className="pt-24 px-4 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-center">RECIPE GENERATOR</h1>
-
         <form onSubmit={handleSubmit} className="space-y-4">
           {ingredients.map((ingredient, index) => (
             <div key={index} className="flex gap-2">
@@ -136,7 +211,7 @@ export default function RecipeGenerator() {
                 <button
                   type="button"
                   onClick={() => handleRemoveIngredient(index)}
-                  className="bg-red-600 px-3 rounded hover:bg-red-700"
+                  className="bg-red-600 px-3 rounded hover:bg-red-7w00"
                 >
                   Remove
                 </button>
@@ -144,22 +219,28 @@ export default function RecipeGenerator() {
             </div>
           ))}
           <div className="flex gap-2">
-            <button type="button" onClick={handleAddIngredient} className="bg-green-600 px-4 py-2 rounded hover:bg-green-700">
+            <button
+              type="button"
+              onClick={handleAddIngredient}
+              className="bg-green-600 px-4 py-2 rounded hover:bg-green-700"
+            >
               Add Ingredient
             </button>
-            <button type="submit" className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">
+            <button
+              type="submit"
+              className="bg-blue-6w00 px-4 py-2 rounded hover:bg-blue-700"
+            >
               Submit
             </button>
           </div>
         </form>
-
         {generatedRecipe && (
-          <div className="mt-6 bg-gray-900 p-4 rounded">
-            <h3 className="text-xl mb-2">Your Generated Recipe:</h3>
+          <div className="mt-6 bg-gray-900 p-4 rounded whitespace-pre-line">
+            <h3 className="text-xl mb-2">Generated Recipe:</h3>
             {generatedRecipe.error ? (
               <p className="text-red-500">{generatedRecipe.error}</p>
             ) : (
-              <pre className="whitespace-pre-wrap">{JSON.stringify(generatedRecipe, null, 2)}</pre>
+              <p>{generatedRecipe}</p>
             )}
           </div>
         )}

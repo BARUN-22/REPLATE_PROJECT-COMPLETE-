@@ -6,7 +6,8 @@ import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 const ContactUs = () => {
   return (
     <section className="bg-black text-white relative overflow-hidden py-20 px-4">
-      {/* Background Image Overlay */}
+   
+
       <div
         className="absolute inset-0 bg-cover bg-center opacity-20"
         style={{
@@ -14,7 +15,6 @@ const ContactUs = () => {
         }}
       />
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        {/* Left Section: Contact Info */}
         <div className="space-y-10 px-4">
           <h2 className="text-3xl font-bold text-white mb-4">Contact Us</h2>
           <p className="text-gray-300 max-w-md">
@@ -37,9 +37,9 @@ const ContactUs = () => {
             <FaPhoneAlt className="text-green-400 mt-1" size={20} />
             <div>
               <h4 className="font-semibold text-lg">PHONE</h4>
+              <p className="text-gray-300">BARUN ROUT (809-369-9237)</p>
               <p className="text-gray-300">700-838-8686</p>
               <p className="text-gray-300">768-388-4727</p>
-              <p className="text-gray-300">889-369-9237</p>
             </div>
           </div>
 

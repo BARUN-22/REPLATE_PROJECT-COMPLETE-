@@ -11,7 +11,6 @@ import ContactUs from "../components/ContactUs";
 import OurProducts from "../components/OurProducts";
 import SmartSolutionsSection from "../components/SmartSolutionsSection";
 
-
 const Homepage = () => {
   return (
     <>

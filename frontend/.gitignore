@@ -1,4 +1,6 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# --------------------------
+# ✅ FRONTEND (Next.js)
+# --------------------------
 
 # dependencies
 /node_modules
@@ -13,29 +15,44 @@
 # testing
 /coverage
 
-# next.js
+# next.js build
 /.next/
 /out/
-
-# production
 /build
 
 # misc
 .DS_Store
 *.pem
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# environment files
 .env*
-
-# vercel
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# --------------------------
+# ✅ BACKEND (Express.js + MongoDB)
+# --------------------------
+
+backend/node_modules/
+backend/.env
+
+# log files
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# System
+Thumbs.db

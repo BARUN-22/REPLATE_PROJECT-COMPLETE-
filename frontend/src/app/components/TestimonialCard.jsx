@@ -14,7 +14,7 @@ const testimonials = [
   {
     name: "— Ramesh Bhai, Head Cook, Shanti Dhaba, Gujarat",
     image: "/images/ramesh.jpg",
-    text: ` I cook food with love every day, but it used to hurt seeing good food go to waste. Thanks to RePlate, now that same food feeds people who truly need it. I feel proud that our hotel is part of this mission.`,
+    text: `I cook food with love every day, but it used to hurt seeing good food go to waste. Thanks to RePlate, now that same food feeds people who truly need it. I feel proud that our hotel is part of this mission.`,
   },
   {
     name: "Shreya Suman Patra",
@@ -114,5 +114,4 @@ const Testimonials = () => {
     </section>
   );
 };
-
 export default Testimonials;
