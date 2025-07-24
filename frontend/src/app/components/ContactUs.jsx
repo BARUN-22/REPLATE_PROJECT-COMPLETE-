@@ -37,9 +37,9 @@ const ContactUs = () => {
             <FaPhoneAlt className="text-green-400 mt-1" size={20} />
             <div>
               <h4 className="font-semibold text-lg">PHONE</h4>
+              <p className="text-gray-300">SHREYA PATRA (768-388-4727)</p>
               <p className="text-gray-300">BARUN ROUT (809-369-9237)</p>
-              <p className="text-gray-300">700-838-8686</p>
-              <p className="text-gray-300">768-388-4727</p>
+              <p className="text-gray-300">SONALI PATRA (700-838-8686)</p>
             </div>
           </div>
 
